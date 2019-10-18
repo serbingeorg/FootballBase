@@ -9,19 +9,20 @@ using System.Web.Http;
 
 namespace FootballBaseDB.Controllers
 {
+    [Route ("api/teams")]
     public class TeamsController : ApiController
     {
         FootballContext db = new FootballContext();
 
         [HttpGet]
-        [Route ("api/teams/")]
+        [Route ("teams")]
         public IEnumerable<Team> GetTeams()
         {
             return db.Teams;
         }
 
         [HttpGet]
-        [Route ("api/{id}/team")]
+        [Route ("team/{id}")]
         public Team GetTeam(int id)
         {
             Team team = db.Teams.Find(id);
@@ -29,7 +30,7 @@ namespace FootballBaseDB.Controllers
         }
 
         [HttpPost]
-        [Route("api/teams/")]
+        [Route("teams")]
         public void CreateTeam([FromBody] Team team)
         {
             db.Teams.Add(team);
@@ -37,7 +38,7 @@ namespace FootballBaseDB.Controllers
         }
 
         [HttpPut]
-        [Route("api/{id}/team")]
+        [Route("team/{id}")]
         public void EditTeam (int id, [FromBody] Team team)
         {
             if (id == team.Id)
@@ -48,7 +49,7 @@ namespace FootballBaseDB.Controllers
         }
 
         [HttpDelete]
-        [Route("api/{id}/team")]
+        [Route("team/{id}")]
         public void DeleteTeam (int id)
         {
             Team team = db.Teams.Find(id);
