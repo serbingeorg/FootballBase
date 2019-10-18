@@ -28,6 +28,7 @@ namespace FootballBaseDB.Controllers
             return player;
         }
         [HttpPost]
+        [Route("api/players/")]
         public void CreatePlayer([FromBody] Player player)
         {
             bd.Players.Add(player);

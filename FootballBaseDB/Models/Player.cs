@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace FootballBaseDB.Models
+﻿namespace FootballBaseDB.Models
 {
     public class Player
     {
@@ -13,7 +8,7 @@ namespace FootballBaseDB.Models
         public string LastName { get; set; }
         public string Citizenship { get; set; }
 
-        public int? TeamId { get; set; }
+        public int? TeamID { get; set; }
         public Team Team { get; set; }
     }
 }
