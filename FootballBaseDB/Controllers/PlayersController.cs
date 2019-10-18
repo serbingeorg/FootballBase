@@ -11,27 +11,27 @@ namespace FootballBaseDB.Controllers
 {
     public class PlayersController : ApiController
     {
-        FootballContext db = new FootballContext();
+        FootballContext bd = new FootballContext();
 
         [HttpGet]
         [Route("api/players/")]
         public IEnumerable <Player> GetPlayers()
         {
-            return db.Players;
+            return bd.Players;
         }
 
         [HttpGet]
         [Route("api/{id}/player")]
         public Player GetPlayer (int id)
         {
-            Player player = db.Players.Find(id);
+            Player player = bd.Players.Find(id);
             return player;
         }
         [HttpPost]
         public void CreatePlayer([FromBody] Player player)
         {
-            db.Players.Add(player);
-            db.SaveChanges();
+            bd.Players.Add(player);
+            bd.SaveChanges();
         }
 
         [HttpPut]
@@ -39,19 +39,19 @@ namespace FootballBaseDB.Controllers
         {
             if (id == player.Id)
             {
-                db.Entry(player).State = EntityState.Modified;
-                db.SaveChanges();
+                bd.Entry(player).State = EntityState.Modified;
+                bd.SaveChanges();
             }
         }
 
         [HttpDelete]
         public void DeletePlayer(int id)
         {
-            Player player = db.Players.Find(id);
+            Player player = bd.Players.Find(id);
             if (player != null)
             {
-                db.Players.Remove(player);
-                db.SaveChanges();
+                bd.Players.Remove(player);
+                bd.SaveChanges();
 
             }
         }
