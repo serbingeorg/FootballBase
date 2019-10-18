@@ -13,11 +13,15 @@ namespace FootballBaseDB.Controllers
     {
         FootballContext db = new FootballContext();
 
+        [HttpGet]
+        [Route("api/players/")]
         public IEnumerable <Player> GetPlayers()
         {
             return db.Players;
         }
 
+        [HttpGet]
+        [Route("api/{id}/player")]
         public Player GetPlayer (int id)
         {
             Player player = db.Players.Find(id);
@@ -40,6 +44,7 @@ namespace FootballBaseDB.Controllers
             }
         }
 
+        [HttpDelete]
         public void DeletePlayer(int id)
         {
             Player player = db.Players.Find(id);
