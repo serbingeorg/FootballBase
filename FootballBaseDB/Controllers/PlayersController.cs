@@ -14,14 +14,14 @@ namespace FootballBaseDB.Controllers
         FootballContext bd = new FootballContext();
 
         [HttpGet]
-        [Route("api/players/")]
+        [Route ("api/players/")]
         public IEnumerable <Player> GetPlayers()
         {
             return bd.Players;
         }
 
         [HttpGet]
-        [Route("api/{id}/player")]
+        [Route ("api/{id}/player")]
         public Player GetPlayer (int id)
         {
             Player player = bd.Players.Find(id);
