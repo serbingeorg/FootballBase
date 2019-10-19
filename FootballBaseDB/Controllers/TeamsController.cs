@@ -22,7 +22,7 @@ namespace FootballBaseDB.Controllers
         }
 
         [HttpGet]
-        [Route ("team/{id}")]
+        [Route ("teams/{id}")]
         public Team GetTeam(int id)
         {
             Team team = db.Teams.Find(id);
@@ -38,7 +38,7 @@ namespace FootballBaseDB.Controllers
         }
 
         [HttpPut]
-        [Route("team/{id}")]
+        [Route("teams/{id}")]
         public void EditTeam (int id, [FromBody] Team team)
         {
             if (id == team.Id)
@@ -49,7 +49,7 @@ namespace FootballBaseDB.Controllers
         }
 
         [HttpDelete]
-        [Route("team/{id}")]
+        [Route("teams/{id}")]
         public void DeleteTeam (int id)
         {
             Team team = db.Teams.Find(id);
