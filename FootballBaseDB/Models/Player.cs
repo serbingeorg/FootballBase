@@ -15,9 +15,9 @@ namespace FootballBaseDB.Models
         public string LastName { get; set; }
         public string Citizenship { get; set; }
 
-        
-        public int? TeamId { get; set; }//  
-        [ForeignKey("TeamId")]
+        [ForeignKey("Team")]
+        public int? TeamId { get; set; }  
+       
         public  Team Team { get; set; }
     }
 }
