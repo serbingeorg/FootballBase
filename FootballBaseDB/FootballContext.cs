@@ -9,7 +9,7 @@ namespace FootballBaseDB
 {
     public class FootballContext : DbContext
     {
-        public FootballContext() : base("FootballBaseDB")
+        public FootballContext() : base("FootballBase")
         { }
         public DbSet<Player> Players { get; set; }
         public DbSet<Team> Teams { get; set; }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FootballBaseDB.Models
 {
@@ -13,7 +15,9 @@ namespace FootballBaseDB.Models
         public string LastName { get; set; }
         public string Citizenship { get; set; }
 
+        
         public int? TeamId { get; set; }//  
-        public Team Team { get; set; }
+        [ForeignKey("TeamId")]
+        public  Team Team { get; set; }
     }
 }
