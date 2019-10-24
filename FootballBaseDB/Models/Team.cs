@@ -11,6 +11,7 @@ namespace FootballBaseDB.Models
         public string TeamName { get; set; }
         public string CountryName { get; set; }
 
+
         public  ICollection<Player> Players { get; set; }
         public Team()
         {
