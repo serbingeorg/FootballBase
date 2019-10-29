@@ -18,7 +18,9 @@ namespace FootballBaseDB.Controllers
         [Route ("players")]
         public IEnumerable <Player> GetPlayers()
         {
+
             return bd.Players;
+            
         }
 
         [HttpGet]

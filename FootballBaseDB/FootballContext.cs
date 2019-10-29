@@ -11,6 +11,7 @@ namespace FootballBaseDB
     {
         public FootballContext() : base("FootballBase")
         { }
+
         public DbSet<Player> Players { get; set; }
         public DbSet<Team> Teams { get; set; }
     }

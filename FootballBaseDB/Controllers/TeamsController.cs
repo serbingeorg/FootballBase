@@ -18,7 +18,8 @@ namespace FootballBaseDB.Controllers
         [Route ("teams")]
         public IEnumerable<Team> GetTeams()
         {
-            return db.Teams;
+            var res = db.Teams.Include(t=>t.Players).ToList();
+            return res;
         }
 
         [HttpGet]
