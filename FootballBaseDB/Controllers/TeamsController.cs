@@ -1,4 +1,5 @@
 ﻿using FootballBaseDB.Models;
+using FootballBaseDB.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,29 +10,29 @@ using System.Web.Http;
 
 namespace FootballBaseDB.Controllers
 {
-    [Route ("api/teams")]
+    [RoutePrefix ("api/teams")]
     public class TeamsController : ApiController
     {
         FootballContext db = new FootballContext();
+        TeamService teamservice = new TeamService();
 
         [HttpGet]
-        [Route ("teams")]
+        [Route ("all")]
         public IEnumerable<Team> GetTeams()
         {
-            var res = db.Teams.Include(t=>t.Players).ToList();
-            return res;
+            return teamservice.GetAllTeams();
         }
 
         [HttpGet]
-        [Route ("teams/{id}")]
+        [Route ("{id}")]
         public Team GetTeam(int id)
         {
-            Team team = db.Teams.Find(id);
+            Team team = db.Teams.Where(i=>i.Id==id).Include(t=>t.Players).FirstOrDefault();
             return team;
         }
 
         [HttpPost]
-        [Route("teams")]
+        [Route("add")]
         public void CreateTeam([FromBody] Team team)
         {
             db.Teams.Add(team);
@@ -39,7 +40,7 @@ namespace FootballBaseDB.Controllers
         }
 
         [HttpPut]
-        [Route("teams/{id}")]
+        [Route("put/{id}")]
         public void EditTeam (int id, [FromBody] Team team)
         {
             if (id == team.Id)
@@ -50,7 +51,7 @@ namespace FootballBaseDB.Controllers
         }
 
         [HttpDelete]
-        [Route("teams/{id}")]
+        [Route("delete/{id}")]
         public void DeleteTeam (int id)
         {
             Team team = db.Teams.Find(id);

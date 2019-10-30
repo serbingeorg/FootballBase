@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace FootballBaseDB.Models
 {
@@ -17,6 +18,7 @@ namespace FootballBaseDB.Models
 
         [ForeignKey("Team")]
         public int? TeamId { get; set; }  
+        [JsonIgnore]
         public   Team Team { get; set; }
     }
 }
