@@ -7,45 +7,47 @@ using FootballBaseDB.Models;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using System.Net.Http;
+using System.Threading.Tasks;
+
 
 namespace FootballBaseDB.Services
 {
     public class PlayerService
     {
         FootballContext bd = new FootballContext();
-        public IEnumerable<Player> GetAllPlayers()
+        public async Task <IEnumerable<Player>> GetAllPlayers()
         {
-            var res = bd.Players.Include(p => p.Team).ToList();
+            var res = await  bd.Players.Include(p => p.Team).ToListAsync();
             return res;
         }
 
-        public Player GetPlayerOne(int id)
+        public async Task  <Player> GetPlayerOne(int id)
         {
-            Player player = bd.Players.Where (i =>i.Id==id).Include(t=>t.Team).FirstOrDefault();
+            Player player = await  bd.Players.Where (i =>i.Id==id).Include(t=>t.Team).FirstOrDefaultAsync();
             return player;
         }
 
-        public void AddPlayer( Player player)
+        public async Task AddPlayer( Player player)
         {
             bd.Players.Add(player);
-            bd.SaveChanges();
+           await  bd.SaveChangesAsync();
             
         }
-        public void EditPlayer(int id,  Player player)
+        public async Task EditPlayer(int id,  Player player)
         {
             if (id == player.Id)
             {
                 bd.Entry(player).State = EntityState.Modified;
-                bd.SaveChanges();
+               await bd.SaveChangesAsync();
             }
         }
-        public void DeletePlayer(int id)
+        public async Task DeletePlayer(int id)
         {
             Player player = bd.Players.Find(id);
             if (player != null)
             {
                 bd.Players.Remove(player);
-                bd.SaveChanges();
+               await bd.SaveChangesAsync();
 
             }
         }
