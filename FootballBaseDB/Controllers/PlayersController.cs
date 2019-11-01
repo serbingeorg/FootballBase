@@ -6,64 +6,74 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Threading.Tasks;
+using FootballBaseDB.Services;
 
 namespace FootballBaseDB.Controllers
 {
-    [RoutePrefix ("api/players")]
+    [RoutePrefix("api/players")]
     public class PlayersController : ApiController
     {
-        FootballContext bd = new FootballContext();
+        //FootballContext bd = new FootballContext();
+        PlayerService playerservice = new PlayerService();
 
         [HttpGet]
-        [Route ("all")]
-        public IEnumerable <Player> GetPlayers()
+        [Route("all")]
+        public async Task <IEnumerable<Player>> GetPlayers()
         {
-
-            var res = bd.Players.Include(p=>p.Team).ToList();
-            return res;
-            
+            return await playerservice.GetAllPlayers();
         }
 
         [HttpGet]
-        [Route ("{id}")]
-        public Player GetPlayer (int id)
+        [Route("{id}")]
+        public async Task <Player> GetPlayer(int id)
         {
-            Player player = bd.Players.Find(id);
-            return player;
+            return await playerservice.GetPlayerOne(id);
         }
         [HttpPost]
         [Route("add")]
-        public void CreatePlayer([FromBody] Player player)
+        public async Task <IHttpActionResult> CreatePlayer([FromBody] Player player)
         {
-            bd.Players.Add(player);
-            bd.SaveChanges();
+            try
+            {
+              await  playerservice.AddPlayer(player);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
 
         [HttpPut]
         [Route("put/{id}")]
-        public void EditPlayer(int id, [FromBody] Player player)
+        public async Task <IHttpActionResult> EditPlayer(int id, [FromBody] Player player)
         {
-            if (id == player.Id)
+            try
             {
-                bd.Entry(player).State = EntityState.Modified;
-                bd.SaveChanges();
+               await playerservice.EditPlayer(id, player);
             }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
 
         [HttpDelete]
         [Route("delete/{id}")]
-        public void DeletePlayer(int id)
+        public async Task <IHttpActionResult> DeletePlayer(int id)
         {
-            Player player = bd.Players.Find(id);
-            if (player != null)
+            try
             {
-                bd.Players.Remove(player);
-                bd.SaveChanges();
-
+             await   playerservice.DeletePlayer(id);
             }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
-
-
 
     }
 }

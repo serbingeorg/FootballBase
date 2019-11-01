@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace FootballBaseDB.Controllers
@@ -13,54 +14,67 @@ namespace FootballBaseDB.Controllers
     [RoutePrefix ("api/teams")]
     public class TeamsController : ApiController
     {
-        FootballContext db = new FootballContext();
+       // FootballContext db = new FootballContext();
         TeamService teamservice = new TeamService();
 
         [HttpGet]
         [Route ("all")]
-        public IEnumerable<Team> GetTeams()
+        public async Task <IEnumerable<Team>> GetTeams()
         {
-            return teamservice.GetAllTeams();
+          return await  teamservice.GetAllTeams();
         }
 
         [HttpGet]
         [Route ("{id}")]
-        public Team GetTeam(int id)
+        public async Task <Team > GetTeam(int id)
         {
-            Team team = db.Teams.Where(i=>i.Id==id).Include(t=>t.Players).FirstOrDefault();
-            return team;
+            return await teamservice.GetTeamOne(id);
         }
 
         [HttpPost]
         [Route("add")]
-        public void CreateTeam([FromBody] Team team)
+        public async Task <IHttpActionResult> CreateTeam([FromBody] Team team)
         {
-            db.Teams.Add(team);
-            db.SaveChanges();
+            try
+            {
+               await teamservice.AddTeam(team);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
 
         [HttpPut]
         [Route("put/{id}")]
-        public void EditTeam (int id, [FromBody] Team team)
+        public async Task <IHttpActionResult> EditTeam (int id,  Team team)
         {
-            if (id == team.Id)
+            try
             {
-                db.Entry(team).State = EntityState.Modified;
-                db.SaveChanges();
+               await teamservice.EditTeam(id, team);
             }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
 
         [HttpDelete]
         [Route("delete/{id}")]
-        public void DeleteTeam (int id)
+        public async Task <IHttpActionResult> DeleteTeam (int id)
         {
-            Team team = db.Teams.Find(id);
-            if (team != null)
+            try
             {
-                db.Teams.Remove(team);
-                db.SaveChanges();
-
+               await teamservice.DeleteTeam(id);
             }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            return Ok();
+
         }
 
     }
