@@ -10,10 +10,21 @@ namespace FootballBaseDB.Infastructure.Mappings
 {
     public class PlayerViewModelMappingProfile : Profile
     {
-        public PlayerViewModelMappingProfile ()
+
+        public PlayerViewModelMappingProfile()
         {
-            CreateMap<Player, PlayerViewModel>().ForMember(x=>x.PlayerName, x=>x.MapFrom(m=>m.FirstName +' '+m.LastName));
+             CreateMap<Player, PlayerViewModel>()
+            .ForMember(dest => dest.PlayerName, opt => opt.MapFrom(src => FormatPlayerName(src.FirstName, src.LastName)));
+
         }
-        // читать ссылки по маперу все описано
+       
+
+        private string FormatPlayerName (string first, string last)
+        {
+            string res = first + " " + last;
+            res = res + " " + res.Length;
+            return res;
+        }
+
     }
 }

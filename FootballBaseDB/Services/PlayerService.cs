@@ -8,7 +8,9 @@ using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using System.Net.Http;
 using System.Threading.Tasks;
-
+using FootballBaseDB.ViewModels;
+using AutoMapper;
+using FootballBaseDB.Infastructure.Mappings;
 
 namespace FootballBaseDB.Services
 {
@@ -21,6 +23,14 @@ namespace FootballBaseDB.Services
             return res;
         }
 
+        public PlayerViewModel Test ()
+        {
+            Player player = bd.Players.FirstOrDefault(p => p.Id == 1);
+            IMapper mapper = new AutoMapperWebConfiguration().Configuration.CreateMapper();
+            PlayerViewModel playerView = mapper.Map<Player, PlayerViewModel>(player);
+            return playerView;
+
+        }
         public async Task  <Player> GetPlayerOne(int id)
         {
             Player player = await  bd.Players.Where (i =>i.Id==id).Include(t=>t.Team).FirstOrDefaultAsync();

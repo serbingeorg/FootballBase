@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
 using FootballBaseDB.Services;
+using FootballBaseDB.ViewModels;
 
 namespace FootballBaseDB.Controllers
 {
@@ -30,6 +31,14 @@ namespace FootballBaseDB.Controllers
         {
             return await playerservice.GetPlayerOne(id);
         }
+
+        [HttpGet]
+        [Route("test")]
+        public PlayerViewModel GetPlayerViewModel ()
+        {
+            return playerservice.Test();
+        }
+
         [HttpPost]
         [Route("add")]
         public async Task <IHttpActionResult> CreatePlayer([FromBody] Player player)

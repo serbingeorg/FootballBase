@@ -9,6 +9,7 @@ namespace FootballBaseDB.Controllers
 {
     public class MultyIncrementController : ApiController
     {
+
         //инкрементировать List из 1000 элементов паралельно
     }
 }
