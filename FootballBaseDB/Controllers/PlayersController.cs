@@ -39,6 +39,15 @@ namespace FootballBaseDB.Controllers
             return playerservice.Test();
         }
 
+        [HttpGet]
+        [Route ("name/{id}")]
+
+        public PlayerViewModel GetPlayerViewModelById(int id)
+        {
+            return playerservice.GetPlayerViewModelById(id);
+
+        }
+
         [HttpPost]
         [Route("add")]
         public async Task <IHttpActionResult> CreatePlayer([FromBody] Player player)

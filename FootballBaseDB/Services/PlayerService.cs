@@ -17,38 +17,57 @@ namespace FootballBaseDB.Services
     public class PlayerService
     {
         FootballContext bd = new FootballContext();
-        public async Task <IEnumerable<Player>> GetAllPlayers()
+        public async Task<IEnumerable<Player>> GetAllPlayers()
         {
-            var res = await  bd.Players.Include(p => p.Team).ToListAsync();
+            var res = await bd.Players.Include(p => p.Team)
+                .ToListAsync();
             return res;
         }
 
-        public PlayerViewModel Test ()
+        public PlayerViewModel GetPlayerViewModelById(int id)
+        {
+            PlayerViewModel player = bd.Players.Where(i => i.Id == id)
+                 .Select(p => new
+                 {
+                     fname = p.FirstName,
+                     lname = p.LastName
+                 }).AsEnumerable().Select(x => new PlayerViewModel
+                 {
+                     PlayerName = x.fname + " " + x.lname
+                 }).FirstOrDefault();
+
+            return player;
+        }
+        public PlayerViewModel Test()
         {
             Player player = bd.Players.FirstOrDefault(p => p.Id == 1);
-            IMapper mapper = new AutoMapperWebConfiguration().Configuration.CreateMapper();
-            PlayerViewModel playerView = mapper.Map<Player, PlayerViewModel>(player);
+            IMapper mapper = new AutoMapperWebConfiguration()
+                .Configuration.CreateMapper();
+            PlayerViewModel playerView = mapper
+                .Map<Player, PlayerViewModel>(player);
             return playerView;
 
         }
-        public async Task  <Player> GetPlayerOne(int id)
+        public async Task<Player> GetPlayerOne(int id)
         {
-            Player player = await  bd.Players.Where (i =>i.Id==id).Include(t=>t.Team).FirstOrDefaultAsync();
+            Player player = await bd.Players
+                .Where(i => i.Id == id).Include(t => t.Team)
+                .FirstOrDefaultAsync();
             return player;
         }
 
-        public async Task AddPlayer( Player player)
+        public async Task AddPlayer(Player player)
         {
             bd.Players.Add(player);
-           await  bd.SaveChangesAsync();
-            
+            await bd.SaveChangesAsync();
+
         }
-        public async Task EditPlayer(int id,  Player player)
+        public async Task EditPlayer(int id, Player player)
         {
             if (id == player.Id)
             {
                 bd.Entry(player).State = EntityState.Modified;
-               await bd.SaveChangesAsync();
+                await bd.SaveChangesAsync();
             }
         }
         public async Task DeletePlayer(int id)
@@ -57,7 +76,7 @@ namespace FootballBaseDB.Services
             if (player != null)
             {
                 bd.Players.Remove(player);
-               await bd.SaveChangesAsync();
+                await bd.SaveChangesAsync();
 
             }
         }
